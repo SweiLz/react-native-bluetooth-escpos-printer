@@ -10,8 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -101,7 +101,6 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
         constants.put(EVENT_CONNECTED, EVENT_CONNECTED);
         constants.put(EVENT_BLUETOOTH_NOT_SUPPORT, EVENT_BLUETOOTH_NOT_SUPPORT);
         constants.put(DEVICE_NAME, DEVICE_NAME);
-        constants.put(EVENT_BLUETOOTH_NOT_SUPPORT, EVENT_BLUETOOTH_NOT_SUPPORT);
         return constants;
     }
 
@@ -166,6 +165,16 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
     public void isBluetoothEnabled(final Promise promise) {
         BluetoothAdapter adapter = this.getBluetoothAdapter();
         promise.resolve(adapter!=null && adapter.isEnabled());
+    }
+
+    @ReactMethod
+    public void stopScan(final Promise promise) {
+        BluetoothAdapter adapter = this.getBluetoothAdapter();
+        if (adapter == null) {
+            promise.reject(EVENT_BLUETOOTH_NOT_SUPPORT);
+        } else if (adapter.isDiscovering()) {
+            adapter.cancelDisCovery();
+        }
     }
 
     @ReactMethod
