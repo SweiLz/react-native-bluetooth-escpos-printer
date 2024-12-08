@@ -173,7 +173,7 @@ public class RNBluetoothManagerModule extends ReactContextBaseJavaModule
         if (adapter == null) {
             promise.reject(EVENT_BLUETOOTH_NOT_SUPPORT);
         } else if (adapter.isDiscovering()) {
-            adapter.cancelDisCovery();
+            adapter.cancelDiscovery();
         }
     }
 
